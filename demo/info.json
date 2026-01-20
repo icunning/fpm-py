@@ -5,31 +5,31 @@
     "magnification": 4.0,
     "sensor_pixel_size": 1.85e-6,
     "captures": [
-        {
-            "filename": "im_0.npy",
-            "wavelength": 6.32e-7,
-            "led_positions": [{ "x": 0.0, "y": 0.0, "z": 0.05 }]
-        },
-        {
-            "filename": "im_1.npy",
-            "wavelength": 6.32e-7,
-            "led_positions": [{ "x": 0.004, "y": 0.0, "z": 0.05 }]
-        },
-        {
-            "filename": "im_2.npy",
-            "wavelength": 6.32e-7,
-            "led_positions": [{ "x": -0.004, "y": 0.0, "z": 0.05 }]
-        },
-        {
-            "filename": "im_3.npy",
-            "wavelength": 6.32e-7,
-            "led_positions": [{ "x": 0.0, "y": 0.004, "z": 0.05 }]
-        },
-        {
-            "filename": "im_4.npy",
-            "wavelength": 6.32e-7,
-            "led_positions": [{ "x": 0.0, "y": -0.004, "z": 0.05 }]
-        }
+        { "filename": "im_0.npy", "wavelength": 6.32e-7, "led_positions": [{ "x": -0.008, "y": -0.008, "z": 0.05 }] },
+        { "filename": "im_1.npy", "wavelength": 6.32e-7, "led_positions": [{ "x": -0.004, "y": -0.008, "z": 0.05 }] },
+        { "filename": "im_2.npy", "wavelength": 6.32e-7, "led_positions": [{ "x": 0.0, "y": -0.008, "z": 0.05 }] },
+        { "filename": "im_3.npy", "wavelength": 6.32e-7, "led_positions": [{ "x": 0.004, "y": -0.008, "z": 0.05 }] },
+        { "filename": "im_4.npy", "wavelength": 6.32e-7, "led_positions": [{ "x": 0.008, "y": -0.008, "z": 0.05 }] },
+        { "filename": "im_5.npy", "wavelength": 6.32e-7, "led_positions": [{ "x": -0.008, "y": -0.004, "z": 0.05 }] },
+        { "filename": "im_6.npy", "wavelength": 6.32e-7, "led_positions": [{ "x": -0.004, "y": -0.004, "z": 0.05 }] },
+        { "filename": "im_7.npy", "wavelength": 6.32e-7, "led_positions": [{ "x": 0.0, "y": -0.004, "z": 0.05 }] },
+        { "filename": "im_8.npy", "wavelength": 6.32e-7, "led_positions": [{ "x": 0.004, "y": -0.004, "z": 0.05 }] },
+        { "filename": "im_9.npy", "wavelength": 6.32e-7, "led_positions": [{ "x": 0.008, "y": -0.004, "z": 0.05 }] },
+        { "filename": "im_10.npy", "wavelength": 6.32e-7, "led_positions": [{ "x": -0.008, "y": 0.0, "z": 0.05 }] },
+        { "filename": "im_11.npy", "wavelength": 6.32e-7, "led_positions": [{ "x": -0.004, "y": 0.0, "z": 0.05 }] },
+        { "filename": "im_12.npy", "wavelength": 6.32e-7, "led_positions": [{ "x": 0.0, "y": 0.0, "z": 0.05 }] },
+        { "filename": "im_13.npy", "wavelength": 6.32e-7, "led_positions": [{ "x": 0.004, "y": 0.0, "z": 0.05 }] },
+        { "filename": "im_14.npy", "wavelength": 6.32e-7, "led_positions": [{ "x": 0.008, "y": 0.0, "z": 0.05 }] },
+        { "filename": "im_15.npy", "wavelength": 6.32e-7, "led_positions": [{ "x": -0.008, "y": 0.004, "z": 0.05 }] },
+        { "filename": "im_16.npy", "wavelength": 6.32e-7, "led_positions": [{ "x": -0.004, "y": 0.004, "z": 0.05 }] },
+        { "filename": "im_17.npy", "wavelength": 6.32e-7, "led_positions": [{ "x": 0.0, "y": 0.004, "z": 0.05 }] },
+        { "filename": "im_18.npy", "wavelength": 6.32e-7, "led_positions": [{ "x": 0.004, "y": 0.004, "z": 0.05 }] },
+        { "filename": "im_19.npy", "wavelength": 6.32e-7, "led_positions": [{ "x": 0.008, "y": 0.004, "z": 0.05 }] },
+        { "filename": "im_20.npy", "wavelength": 6.32e-7, "led_positions": [{ "x": -0.008, "y": 0.008, "z": 0.05 }] },
+        { "filename": "im_21.npy", "wavelength": 6.32e-7, "led_positions": [{ "x": -0.004, "y": 0.008, "z": 0.05 }] },
+        { "filename": "im_22.npy", "wavelength": 6.32e-7, "led_positions": [{ "x": 0.0, "y": 0.008, "z": 0.05 }] },
+        { "filename": "im_23.npy", "wavelength": 6.32e-7, "led_positions": [{ "x": 0.004, "y": 0.008, "z": 0.05 }] },
+        { "filename": "im_24.npy", "wavelength": 6.32e-7, "led_positions": [{ "x": 0.008, "y": 0.008, "z": 0.05 }] }
     ],
     "metadata": {
         "sample": "test_target",
