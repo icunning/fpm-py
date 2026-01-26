@@ -4,6 +4,7 @@
     "version": "1.0",
     "magnification": 4.0,
     "sensor_pixel_size": 1.85e-6,
+    "capture_dimensions": {"width": 128, "height": 128},
     "captures": [
         { "filename": "im_0.npy", "wavelength": 6.32e-7, "led_positions": [{ "x": -0.008, "y": -0.008, "z": 0.05 }] },
         { "filename": "im_1.npy", "wavelength": 6.32e-7, "led_positions": [{ "x": -0.004, "y": -0.008, "z": 0.05 }] },
