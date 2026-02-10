@@ -7,9 +7,30 @@ from PIL import Image
 from ptych.data.synthetic import generate_synthetic_study
 from ptych.core.zernike import precompute_zernike_basis, make_zernike_pupil
 
+from tkinter import Tk, filedialog
+from pathlib import Path
+import matplotlib.pyplot as plt
+
+
+# Current working dir_path
+#
+
+currentdir = Path(__file__).parent
+
 # Load gold.png and convert to grayscale float [0, 1]
-img = Image.open(f"demo/gold.png").convert("L")
+
+root = Tk()
+root.withdraw()
+file_path = filedialog.askopenfilename(title="Select image file", initialdir=str(currentdir) + "/demoData")
+#print(file_path)
+
+img = Image.open(file_path) #.convert("L")
 amplitude = np.array(img, dtype=np.float32) / 255.0
+
+plt.imshow(amplitude, cmap='gray')
+plt.axis("off")
+plt.show(block=False)
+
 
 # Create object tensor: phase proportional to amplitude
 # Scale phase to [0, 2*pi] range
@@ -34,14 +55,23 @@ pupil_tensor = make_zernike_pupil(phase_coeffs, amp_coeffs, basis, rad_fraction,
 object_amplitude_u8 = np.asarray(
     pupil_tensor.real / pupil_tensor.real.max() * 255, dtype=np.uint8
 )
-Image.fromarray(object_amplitude_u8).save(f"tmp/test/object_result.png")
+
+im = np.fft.fftshift(object_amplitude_u8)
+
+plt.imshow(im, cmap='gray')
+plt.axis("off")
+plt.show(block=False)
+
+
+#result = Image.fromarray(object_amplitude_u8)
+#.save(f"tmp/test/object_result.png")
 
 # Set downsample factor
 downsample_ratio = 4
 
 # Run synthetic study generation
 generate_synthetic_study(
-    dir_path="tmp/test",
+    dir_path= str(currentdir) +"tmp/test",
     object_tensor=object_tensor,
     pupil_tensor=pupil_tensor,
     downsample_ratio=downsample_ratio,
