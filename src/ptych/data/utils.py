@@ -13,7 +13,7 @@ def get_default_device() -> torch.device:
 def compute_k_camera(
     led_position: LedPosition,
     wavelength: float,
-    camera_pixel_size: float,
+    sensor_pixel_size: float,
     magnification: float,
 ) -> tuple[float, float]:
     """
@@ -22,7 +22,7 @@ def compute_k_camera(
     Args:
         led_position: LED position (x, y, z) in meters
         wavelength: in meters
-        camera_pixel_size: sensor pixel pitch in meters
+        sensor_pixel_size: camera pixel pitch in meters
         magnification: objective magnification
 
     Returns:
@@ -31,7 +31,7 @@ def compute_k_camera(
     theta_x = math.atan2(led_position.x, led_position.z)
     theta_y = math.atan2(led_position.y, led_position.z)
 
-    sample_pixel = camera_pixel_size / magnification
+    sample_pixel = sensor_pixel_size / magnification
 
     kx_camera = math.sin(theta_x) * sample_pixel / wavelength
     ky_camera = math.sin(theta_y) * sample_pixel / wavelength

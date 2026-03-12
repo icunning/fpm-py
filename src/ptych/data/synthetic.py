@@ -11,12 +11,13 @@ from ptych.core.synthetic import synthesize_captures
 from ptych.data.parse import parse_manifest
 from ptych.data.utils import compute_k_camera
 
+
 def generate_synthetic_study(
     dir_path: str | Path,
     object_tensor: Complex[torch.Tensor, "N N"],
     pupil_tensor: Complex[torch.Tensor, "N N"],
     downsample_ratio: int,
-) -> None:
+) -> np.ndarray:
     """
     Generate synthetic captures from info.json and save to captures/ directory.
 
@@ -33,6 +34,7 @@ def generate_synthetic_study(
 
     # Load and parse manifest
     manifest_path = dir_path / "info.json"
+    print('manifest_path', manifest_path)
     with open(manifest_path) as f:
         manifest = parse_manifest(cast(dict[str, object], json.load(f)))
 
@@ -75,8 +77,11 @@ def generate_synthetic_study(
     captures_dir = dir_path / "captures"
     captures_dir.mkdir(exist_ok=True)
 
+    captures_np = captures.detach().cpu().numpy()
+
     for i, cap in enumerate(valid_captures):
-        img = captures[i].detach().cpu().numpy()
-        np.save(captures_dir / cap.filename, img)
+        #img = captures[i].detach().cpu().numpy()
+        np.save(captures_dir / cap.filename, captures_np[i])# img)
 
     print(f"Generated {len(valid_captures)} synthetic captures in {captures_dir}")
+    return captures_np

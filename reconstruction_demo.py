@@ -7,28 +7,88 @@ from matplotlib import pyplot as plt
 from ptych import solve_inverse, PtychStudy
 from ptych.core.zernike import precompute_zernike_basis, make_zernike_pupil, ZernikeParams
 
-BASE_DIR = "./tmp/new/synthetic"
+from pathlib import Path
+import datetime
+import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog
+import json
+
+
+# Generate path to data parent
+
+srcInitialParent = Path.home() / "Desktop" / "fpmData"   # modify as desired for data destination
+
+# Load true high-quality image and convert to grayscale float [0, 1]
+
+app = QApplication(sys.argv)   # ✅ create app first
+win = QMainWindow()
+#win.show()
+
+srcDirPath = QFileDialog.getExistingDirectory(
+    win,
+    'Select study folder',
+    str(srcInitialParent),
+)
+
+BASE_DIR = Path(srcDirPath)
+print('BASE_DIR:', BASE_DIR)
 
 study = PtychStudy.from_disk(BASE_DIR)
-
 eps = 1e-8
 
 # Initialize object and pupil with upsampled dimensions
 upsample_ratio = 4
 dims = study.manifest.capture_dimensions
+csize = study.captures.shape
+print('Loaded', csize[0], 'raw data images of size', csize[1], 'x', csize[2])
 
 init_amp = torch.nn.functional.interpolate(
     study.captures[0:1, :, :].unsqueeze(1),  # [B, n, n]
     scale_factor=upsample_ratio,
     mode='bilinear'
-).squeeze()  #
+).squeeze()
+
+
+if True:
+    cCnt = study.captures.shape[0]
+    xCnt = np.ceil(np.sqrt(cCnt)).astype(int)
+    yCnt = np.ceil(cCnt / xCnt).astype(int)
+    print(cCnt, xCnt, yCnt)
+    fig, axes = plt.subplots(xCnt, yCnt, figsize=(10, 8))
+    i = 0
+    for x in range(xCnt):
+        for y in range(yCnt):
+            amplitude = study.captures[i,:,:]
+            axes[x, y].imshow(amplitude, cmap='gray')
+            axes[x, y].set_title(f"Image {i+1}")
+            axes[x, y].axis("off")
+            i = i + 1
+            if i >= cCnt:
+                break
+    for ax in axes.ravel():
+        ax.axis('off')
+    plt.tight_layout()
+    fig.subplots_adjust(
+        left=0.02,
+        right=0.98,
+        top=0.98,
+        bottom=0.05,
+        wspace=0.0,
+        hspace=0.02
+    )
+    plt.show(block=True)
+
+
+
 
 init_amp = torch.sqrt(init_amp + eps)  # Convert intensity to amplitude
 init_phase = torch.zeros_like(init_amp)  # or small random noise
 
 object_tensor = init_amp * torch.exp(1j * init_phase)
 
+
 # Initialize pupil using Zernike basis
+
 N = dims.height * upsample_ratio
 basis = precompute_zernike_basis(N, num_phase_terms=3, num_amp_terms=3)
 phase_coeffs = torch.zeros(basis.num_phase_terms)
@@ -54,6 +114,9 @@ object_amplitude_u8 = np.asarray(
     object_amplitude / object_amplitude.max() * 255, dtype=np.uint8
 )
 Image.fromarray(object_amplitude_u8).save(f"{BASE_DIR}/object_result.png")
+
+
+
 
 # Save pupil result as PNG
 assert isinstance(pupil, ZernikeParams)
@@ -81,3 +144,10 @@ ax2.set_ylabel('Log Loss') # pyright: ignore[reportAny]
 plt.tight_layout()
 plt.savefig(f"{BASE_DIR}/metrics.png", dpi=150)
 plt.close()
+
+#if True:
+#    plt.show(object_amplitude_u8, cmap='gray')
+#    plt.set_title("Result")
+#    plt.axis("off")
+#    plt.tight_layout()
+#    plt.show(block=True)
