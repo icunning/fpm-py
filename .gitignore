@@ -14,5 +14,13 @@ build/
 tmp/
 .DS_Store
 
+<<<<<<< HEAD
 demo/captures
 demo/object_result.png
+=======
+demo/real/output*
+demo/synthetic/output
+demo/synthetic/captures
+
+results/
+>>>>>>> upstream/main
