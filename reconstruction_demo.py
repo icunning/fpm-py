@@ -6,8 +6,9 @@ from matplotlib import pyplot as plt
 
 from ptych import solve_inverse, PtychStudy
 from ptych.core.zernike import precompute_zernike_basis, make_zernike_pupil, ZernikeParams
+from pathlib import Path
 
-BASE_DIR = "./tmp/new/synthetic"
+BASE_DIR = Path("./tmp/new/synthetic")
 
 study = PtychStudy.from_disk(BASE_DIR)
 
