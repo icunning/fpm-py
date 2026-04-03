@@ -13,8 +13,23 @@ from ptych import PtychStudy
 from ptych.data.synthetic import generate_synthetic_study
 from ptych.core.pupil import make_ideal_pupil, make_zernike_pupil
 
+import json
+import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog
+from qtlib import select_roi, show_grayscale_subplots, MultiImageWindow
+
+
 IDEAL_IMAGE_PATH = Path("demo_images/ideal.png")
 OUTPUT_DIR = Path("results/synthetic_usaf_test")
+
+#if __name__ == "__main__":
+
+# Start Qt for QtWidgets
+
+app = QApplication(sys.argv)   # ✅ create app first
+win = QMainWindow()
+#win.show()
+
 
 # Load a real study to use its info.json for generating synthetic data
 study = PtychStudy.load("usaf-test")
@@ -22,6 +37,9 @@ study = PtychStudy.load("usaf-test")
 # Load ideal.png and convert to grayscale float [0, 1]
 img = Image.open(IDEAL_IMAGE_PATH).convert("L")
 amplitude: npt.NDArray[np.float32] = np.asarray(img, dtype=np.float32) / np.float32(255.0)
+
+#select_roi(img)
+
 
 # Center-crop to a square since the current synthetic pipeline requires NxN square tensors.
 image_shape = cast(tuple[int, int], amplitude.shape)
@@ -70,9 +88,18 @@ pupil_tensor = make_zernike_pupil(
 )
 
 # Run synthetic study generation
-generate_synthetic_study(
+captures = generate_synthetic_study(
     manifest=synthetic_manifest,
     output_dir=OUTPUT_DIR,
     object_tensor=object_tensor,
     pupil_tensor=pupil_tensor,
 )
+
+# Display mosaic of results
+
+n = len(captures)
+ncols = int(16)#np.ceil(np.sqrt(n)))
+nrows = int(np.ceil(n / ncols))
+print(n, nrows, ncols)
+imageWin = show_grayscale_subplots(captures, nrows=nrows, ncols=ncols, titles=None)
+app.exec_()
